@@ -4,7 +4,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Dodaj Swagger
+// Konfiguracja Swaggera
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// W³¹cz Swagger UI
+// Middleware Swaggera
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
@@ -45,5 +45,12 @@ app.MapGet("/news", async () =>
 })
 .WithName("GetNews")
 .WithOpenApi();
+
+// Przekierowanie z "/" na "/swagger"
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/swagger");
+    return Task.CompletedTask;
+});
 
 app.Run();
