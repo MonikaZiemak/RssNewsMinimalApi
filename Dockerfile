@@ -21,4 +21,4 @@ COPY --from=build /app/out ./
 ENV ASPNETCORE_URLS=http://+:$PORT
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "RssNewsApi.dll"]
+ENTRYPOINT ["dotnet", "RssNewsMinimalApi.dll"]
