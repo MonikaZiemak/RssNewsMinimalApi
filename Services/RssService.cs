@@ -1,5 +1,5 @@
 ﻿using CodeHollow.FeedReader;
-using RssNewsMinimalApi.Models;
+using RssNewsMinimalApi.Model;
 
 namespace RssNewsMinimalApi.Services;
 
