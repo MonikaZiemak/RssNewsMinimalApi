@@ -7,12 +7,24 @@ public class RssService
 {
     public async Task<List<NewsItem>> GetNewsAsync(string url)
     {
-        var newsItems = feed.Items.Select(item => new NewsItem
+        try
         {
-            Title = item.Title.Text,
-            Summary = item.Summary?.Text,
-            Link = item.Links.FirstOrDefault()?.Uri.ToString(),
-            PublishDate = item.PublishDate.UtcDateTime // lub .DateTime
-        }).ToList();
+            var feed = await FeedReader.ReadAsync(url);
+
+            var newsItems = feed.Items.Select(item => new NewsItem
+            {
+                Title = item.Title,
+                Summary = item.Description,
+                Link = item.Link,
+                PublishDate = item.PublishingDate ?? DateTime.MinValue
+            }).ToList();
+
+            return newsItems;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Błąd podczas pobierania feeda: {ex.Message}");
+            return new List<NewsItem>();
+        }
     }
 }
