@@ -7,13 +7,12 @@ public class RssService
 {
     public async Task<List<NewsItem>> GetNewsAsync(string url)
     {
-        var feed = await FeedReader.ReadAsync(url);
-
-        return feed.Items.Select(item => new NewsItem
+        var newsItems = feed.Items.Select(item => new NewsItem
         {
-            Title = item.Title,
-            Link = item.Link,
-            PublishDate = item.PublishingDate?.ToString("yyyy-MM-dd HH:mm") ?? "brak daty"
+            Title = item.Title.Text,
+            Summary = item.Summary?.Text,
+            Link = item.Links.FirstOrDefault()?.Uri.ToString(),
+            PublishDate = item.PublishDate.UtcDateTime // lub .DateTime
         }).ToList();
     }
 }
